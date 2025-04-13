@@ -1,0 +1,9 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+  <div class="container mt-5 text-center">
+    <h2 class="text-danger">Оплата была отменена</h2>
+    <p>Вы можете повторить попытку или вернуться к выбору билетов.</p>
+    <a href="{% url 'movie-list' %}" class="btn btn-outline-danger mt-3">Назад к фильмам</a>
+  </div>
+{% endblock %}

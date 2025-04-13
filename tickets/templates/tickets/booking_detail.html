@@ -1,0 +1,61 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Детали бронирования</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">{{ booking.showtime.movie.title }}</h4>
+            <p class="card-text">
+                <strong>Дата и время:</strong> {{ booking.showtime.start_time|date:"d.m.Y H:i" }}<br>
+                <strong>Зал:</strong> {{ booking.showtime.hall.name }}<br>
+                <strong>Места:</strong>
+                {% for ticket in booking.tickets.all %}
+                    <span class="badge bg-light text-dark border me-1">
+                        🎟️ Ряд {{ ticket.seat.row }} Место {{ ticket.seat.number }}
+                        {% if ticket.ticket_type == "adult" %}👤 Взрослый{% endif %}
+                        {% if ticket.ticket_type == "student" %}🎓 Студенческий{% endif %}
+                        {% if ticket.ticket_type == "child" %}👶 Детский{% endif %}
+                    </span>
+                {% empty %}
+                    <span class="text-muted">Не выбраны</span>
+                {% endfor %}<br>
+                <strong>Сумма:</strong> {{ booking.total_price }} ₸<br>
+                <strong>Статус:</strong>
+                {% if booking.is_refunded %}
+                    <span class="text-danger">Возвращён</span>
+                {% else %}
+                    <span class="text-success">Активен</span>
+                {% endif %}
+            </p>
+
+            {% if booking.qr_code %}
+                <div class="mt-4">
+                    <h5>QR-код для входа:</h5>
+                    <img src="{{ booking.qr_code.url }}" alt="QR код" class="img-fluid" style="max-width: 200px;">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% with cinema=booking.showtime.hall.cinema %}
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Местоположение кинотеатра: {{ cinema.name }}</h5>
+                <p class="card-text">{{ cinema.address }}</p>
+                <div class="rounded shadow-sm border">
+                    <iframe
+                        src="https://yandex.kz/map-widget/v1/?ll={{ cinema.longitude }},{{ cinema.latitude }}&z=14&l=map&pt={{ cinema.longitude }},{{ cinema.latitude }},pm2rdm"
+                        width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+
+    <div class="text-center mt-4">
+        <a href="{% url 'user-bookings' %}" class="btn btn-secondary">← Назад к моим бронированиям</a>
+    </div>
+</div>
+{% endblock %}

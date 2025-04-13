@@ -1,0 +1,25 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<h2>Бронирование подтверждено!</h2>
+<p>Номер брони: #{{ booking.id }}</p>
+<p>Фильм: {{ booking.showtime.movie.title }}</p>
+<p>Время: {{ booking.showtime.start_time }}</p>
+<p>Зал: {{ booking.showtime.hall.name }}</p>
+
+<h3>Выбранные места:</h3>
+<ul>
+    {% for seat in booking.seats.all %}
+    <li>Ряд {{ seat.row }}, Место {{ seat.number }} ({{ seat.get_seat_type_display }}) - {{ seat.price }} ₸.</li>
+    {% endfor %}
+</ul>
+
+<p><strong>Итого: {{ booking.total_price }} тенге.</strong></p>
+
+{% if qr_code_url %}
+    <h3>Ваш QR-код:</h3>
+    <img src="{{ qr_code_url }}" alt="QR-код билета" class="img-fluid" style="max-width: 250px;">
+{% endif %}
+
+<a href="{% url 'home' %}" class="btn btn-primary">На главную</a>
+{% endblock %}

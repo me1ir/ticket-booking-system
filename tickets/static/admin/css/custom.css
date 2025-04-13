@@ -1,0 +1,11 @@
+/* Красивая кнопка */
+.btn-high {
+    height: 35px;
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+}
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}

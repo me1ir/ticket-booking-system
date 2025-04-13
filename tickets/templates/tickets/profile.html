@@ -1,0 +1,46 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h3 class="mb-0">Мой профиль</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Телефон:</strong> {{ user.phone }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">Последние бронирования</h3>
+                <a href="{% url 'user-bookings' %}" class="btn btn-sm btn-light">See all</a>
+            </div>
+            <div class="card-body">
+                {% if bookings %}
+                {% for booking in bookings|slice:":3" %}
+                <div class="border-bottom pb-2 mb-3">
+                    <h5 class="mb-1">{{ booking.showtime.movie.title }}</h5>
+                    <p class="mb-1 text-muted">
+                        {{ booking.showtime.start_time|date:"d.m.Y" }} в {{ booking.showtime.start_time|time }}
+                    </p>
+                    <p class="mb-0">
+                        Ряд {{ booking.seats.first.row }}, Место {{ booking.seats.first.number }} •
+                        ₸{{ booking.total_price }}
+                    </p>
+                    <a href="{% url 'booking_detail' booking.id %}" class="btn btn-outline-primary btn-sm mt-2">Подробнее</a>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="alert alert-info">У вас ещё нет бронирований.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+  <div class="container mt-5 text-center">
+    <h2 class="text-success">Оплата прошла успешно!</h2>
+    <p>Спасибо за покупку билета. Подтверждение отправлено вам на почту.</p>
+    <a href="{% url 'user-bookings' %}" class="btn btn-outline-success mt-3">Перейти к моим бронированиям</a>
+  </div>
+{% endblock %}

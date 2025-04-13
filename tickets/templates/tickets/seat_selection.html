@@ -1,0 +1,172 @@
+{% extends 'tickets/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .highlight-missing {
+        outline: 3px solid #dc3545 !important;
+        outline-offset: 2px;
+        animation: pulse 0.8s ease-in-out;
+    }
+    @keyframes pulse {
+        0% { outline-color: transparent; }
+        50% { outline-color: #dc3545; }
+        100% { outline-color: transparent; }
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Выбор мест для {{ showtime.movie.title }}</h2>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <span class="badge bg-primary me-2">Зал: {{ showtime.hall.name }}</span>
+            <span class="badge bg-secondary">Время: {{ showtime.start_time|time }}</span>
+        </div>
+        <a href="{% url 'movie_detail' showtime.movie.id %}" class="btn btn-sm btn-outline-dark">
+            ← Назад к фильму
+        </a>
+    </div>
+
+    <!-- Экран -->
+    <div class="screen-container mb-5">
+        <div class="screen mx-auto">ЭКРАН</div>
+    </div>
+
+    <!-- Форма -->
+    <form method="POST" id="seatSelectionForm">
+        {% csrf_token %}
+
+        <!-- Схема зала с выбором мест и типа билета -->
+        <div class="cinema-hall">
+            {% for row, seats in rows.items %}
+            <div class="seat-row mb-2">
+                <span class="row-number">Ряд {{ row }}</span>
+                {% for seat in seats %}
+                    <label class="seat {% if not seat.is_available %}occupied{% endif %}" id="label_{{ seat.id }}">
+                        <input type="checkbox"
+                               name="seats"
+                               value="{{ seat.id }}"
+                               data-price="{{ seat.price }}"
+                               onclick="handleSeatClick(this, {{ seat.id }}, '{{ row }}', '{{ seat.number }}')"
+                               {% if not seat.is_available %}disabled{% endif %} />
+                        {{ seat.number }}
+                    </label>
+                    <input type="hidden" name="seat_type_{{ seat.id }}" id="seat_type_{{ seat.id }}" value="">
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Кнопка отправки -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">Забронировать</button>
+        </div>
+    </form>
+</div>
+
+<!-- Модальное окно выбора типа билета -->
+<div class="modal fade show" id="ticketTypeModal" tabindex="-1" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%, -30%); width:300px; background:#ffffff; padding:20px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,0.25); z-index:1050;">
+    <div class="modal-header border-0">
+        <h5 class="modal-title" id="modalSeatLabel">Тип билета</h5>
+        <button type="button" class="btn-close" onclick="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+        <p id="modalSeatInfo" class="text-muted mb-2"></p>
+        <p id="modalPrice" class="fw-bold text-center"></p>
+        <div class="list-group">
+            <label class="list-group-item d-flex justify-content-between align-items-center">
+                <input class="form-check-input me-2" type="radio" name="modalTicketType" value="adult" checked>
+                <span>Взрослый</span>
+                <span class="text-muted">100%</span>
+            </label>
+            <label class="list-group-item d-flex justify-content-between align-items-center">
+                <input class="form-check-input me-2" type="radio" name="modalTicketType" value="student">
+                <span>Студенческий</span>
+                <span class="text-muted">-30%</span>
+            </label>
+            <label class="list-group-item d-flex justify-content-between align-items-center">
+                <input class="form-check-input me-2" type="radio" name="modalTicketType" value="child">
+                <span>Детский</span>
+                <span class="text-muted">-50%</span>
+            </label>
+        </div>
+    </div>
+    <div class="modal-footer border-0 d-flex justify-content-end">
+        <button type="button" class="btn btn-secondary me-2" onclick="closeModal()">Отмена</button>
+        <button type="button" class="btn btn-primary" onclick="confirmTicketType()">Выбрать</button>
+    </div>
+</div>
+
+<script>
+let currentSeatId = null;
+let autoSubmitAfterModal = false;
+
+function handleSeatClick(checkbox, seatId, row, number) {
+    if (checkbox.checked) {
+        currentSeatId = seatId;
+        const basePrice = parseFloat(checkbox.dataset.price);
+        document.getElementById('modalSeatInfo').textContent = `${row} ряд, ${number} место`;
+        updateModalPrice(basePrice, 'adult');
+        document.getElementById('ticketTypeModal').style.display = 'block';
+    } else {
+        document.getElementById(`seat_type_${seatId}`).value = '';
+        document.getElementById(`label_${seatId}`).classList.remove("highlight-missing");
+    }
+}
+
+function confirmTicketType() {
+    const type = document.querySelector('input[name="modalTicketType"]:checked').value;
+    document.getElementById(`seat_type_${currentSeatId}`).value = type;
+    document.getElementById(`label_${currentSeatId}`).classList.remove("highlight-missing");
+    closeModal();
+    if (autoSubmitAfterModal) {
+        document.getElementById("seatSelectionForm").submit();
+    }
+}
+
+function updateModalPrice(basePrice, type) {
+    const discounts = {
+        'adult': 1.0,
+        'student': 0.7,
+        'child': 0.5
+    };
+    const final = basePrice * discounts[type];
+    document.getElementById('modalPrice').textContent = `Цена: ${final.toFixed(0)} ₸`;
+}
+
+function closeModal() {
+    document.getElementById('ticketTypeModal').style.display = 'none';
+    currentSeatId = null;
+    autoSubmitAfterModal = false;
+}
+
+// Пересчёт цены при выборе типа билета
+const radios = document.querySelectorAll('input[name="modalTicketType"]');
+radios.forEach(input => {
+    input.addEventListener('change', () => {
+        const selected = document.querySelector('input[name="modalTicketType"]:checked').value;
+        const checkbox = document.querySelector(`input[name="seats"][value="${currentSeatId}"]`);
+        const basePrice = parseFloat(checkbox.dataset.price);
+        updateModalPrice(basePrice, selected);
+    });
+});
+
+// Проверка перед отправкой формы
+const form = document.getElementById("seatSelectionForm");
+form.addEventListener("submit", function(event) {
+    const selectedSeats = document.querySelectorAll("input[name='seats']:checked");
+    for (const seat of selectedSeats) {
+        const seatId = seat.value;
+        const seatType = document.getElementById(`seat_type_${seatId}`).value;
+        if (!seatType) {
+            event.preventDefault();
+            handleSeatClick(seat, seatId, 'неизвестный', '');
+            document.getElementById(`label_${seatId}`).classList.add("highlight-missing");
+            autoSubmitAfterModal = true;
+            return;
+        }
+    }
+});
+</script>
+{% endblock %}

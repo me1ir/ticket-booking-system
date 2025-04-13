@@ -1,0 +1,117 @@
+.screen {
+    text-align: center;
+    background: #333;
+    color: white;
+    padding: 10px;
+    margin: 20px auto;
+    width: 80%;
+}
+
+.seat-map {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.seat-row {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Центрируем ряд */
+    margin-bottom: 10px;
+    flex-direction: row; /* Устанавливаем горизонтальное расположение */
+}
+
+.seats-container {
+    display: flex;
+    gap: 8px; /* Добавляем расстояние между сиденьями */
+}
+
+.row-number {
+    font-weight: bold;
+    width: 50px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.seat {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #28a745;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+}
+
+.seat.occupied {
+    background: #f44336;
+    cursor: not-allowed;
+}
+
+.seat.selected {
+    background: #2196F3;
+}
+
+.btn-book {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.seat-map {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.screen {
+    font-size: 1.5rem;
+    letter-spacing: 0.2rem;
+}
+
+.seat-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.row-badge {
+    width: 80px;
+    text-align: center;
+}
+
+.seat {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #28a745;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.seat.occupied {
+    background: #dc3545;
+    cursor: not-allowed;
+}
+/* Добавьте в ваш статический CSS файл */
+a.button {
+    padding: 6px 12px;
+    background: #417690;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+}
+a.button:hover {
+    background: #205067;
+    color: white;
+}

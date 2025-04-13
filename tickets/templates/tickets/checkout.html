@@ -1,0 +1,15 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+  <div class="container mt-5 text-center">
+    <h2>Подтверждение бронирования</h2>
+    <p>Пожалуйста, нажмите кнопку ниже для оплаты.</p>
+
+    <form action="{% url 'create-checkout-session' booking.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary">
+        Оплатить через Stripe
+      </button>
+    </form>
+  </div>
+{% endblock %}

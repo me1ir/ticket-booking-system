@@ -1,0 +1,116 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold"><i class="bi bi-film"></i> Сейчас в кино</h1>
+        <form class="d-flex" method="get" action="{% url 'movie_list' %}">
+            <input class="form-control me-2" type="search" name="q" placeholder="Search movies..." value="{{ query }}">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- 🎛 Фильтры и сортировка -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-end">
+                <!-- 🎭 Жанр -->
+                <div class="col-md-3">
+                    <label for="genre" class="form-label">Genre</label>
+                    <select class="form-select" id="genre" name="genre">
+                        <option value="">All Genres</option>
+                        {% for genre in genres %}
+                            <option value="{{ genre.id }}" {% if selected_genre == genre.id|stringformat:"s" %}selected{% endif %}>
+                                {{ genre.name }} ({{ genre.movie_count }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- 🏢 Кинотеатр -->
+                <div class="col-md-3">
+                    <label for="cinema" class="form-label">Cinema</label>
+                    <select class="form-select" id="cinema" name="cinema">
+                        <option value="">All Cinemas</option>
+                        {% for cinema in all_cinemas %}
+                            <option value="{{ cinema.id }}" {% if cinema.id|stringformat:"s" == request.GET.cinema %}selected{% endif %}>
+                                {{ cinema.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- ⬇ Сортировка -->
+                <div class="col-md-3">
+                    <label for="sort_by" class="form-label">Sort By</label>
+                    <select class="form-select" id="sort_by" name="sort_by" onchange="this.form.submit()">
+                        <option value="-release_date" {% if selected_sort == '-release_date' %}selected{% endif %}>Newest First</option>
+                        <option value="release_date" {% if selected_sort == 'release_date' %}selected{% endif %}>Oldest First</option>
+                        <option value="-rating" {% if selected_sort == '-rating' %}selected{% endif %}>Highest Rating</option>
+                        <option value="rating" {% if selected_sort == 'rating' %}selected{% endif %}>Lowest Rating</option>
+                        <option value="title" {% if selected_sort == 'title' %}selected{% endif %}>Title (A-Z)</option>
+                        <option value="-title" {% if selected_sort == '-title' %}selected{% endif %}>Title (Z-A)</option>
+                    </select>
+                </div>
+
+                <!-- 🔄 Кнопки -->
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary me-2 w-100">Apply</button>
+                    <a href="{% url 'movie_list' %}" class="btn btn-outline-secondary w-100 mt-2">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 🎞 Сетка фильмов -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+        {% for movie in movies %}
+        <div class="col">
+            <a href="{% url 'movie_detail' movie.id %}" class="text-decoration-none text-dark">
+                <div class="card h-100 movie-card shadow-sm">
+                    <img src="{{ movie.poster.url }}" class="card-img-top" alt="{{ movie.title }}">
+                    <div class="card-body text-center">
+                        <h6 class="fw-semibold text-truncate mb-2" title="{{ movie.title }}">{{ movie.title }}</h6>
+
+                        <p class="text-muted small mb-1">
+                            {% with movie.genres.first as first_genre %}
+                                {% if first_genre %}
+                                    <span class="badge bg-primary">{{ first_genre.name }}</span>
+                                {% endif %}
+                            {% endwith %}
+                        </p>
+
+                        <p class="text-muted small mb-0">
+                            {{ movie.duration }} мин · ⭐ {{ movie.rating|floatformat:1 }}/10
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No movies found matching your criteria.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 💅 Стилизация -->
+<style>
+.movie-card {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.movie-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+.card-img-top {
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 14px 14px 0 0;
+}
+</style>
+{%endblock%}

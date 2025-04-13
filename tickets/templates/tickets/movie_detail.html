@@ -1,0 +1,166 @@
+{% extends 'tickets/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <!-- Информация о фильме -->
+    <div class="row mb-4">
+        <!-- Постер с кнопкой "Смотреть трейлер" -->
+        <div class="col-md-3">
+            <div class="position-relative">
+                <img src="{{ movie.poster.url }}" class="img-fluid rounded shadow" alt="{{ movie.title }}" style="max-height: 400px;">
+                {% if movie.trailer_url %}
+<button class="play-button" data-bs-toggle="modal" data-bs-target="#trailerModal" aria-label="Смотреть трейлер">
+    <i class="fas fa-play fa-2x"></i>
+</button>
+{% endif %}
+
+
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <h1 class="mb-3">{{ movie.title }}</h1>
+            <div class="movie-meta mb-4">
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    {% with movie.genres.first as first_genre %}
+                        {% if first_genre %}
+                            <span class="badge bg-primary">{{ first_genre.name }}</span>
+                        {% endif %}
+                    {% endwith %}
+
+                    {% for genre in movie.genres.all|slice:"1:5" %}
+                        <span class="badge bg-secondary">{{ genre.name }}</span>
+                    {% endfor %}
+
+                    <span class="badge bg-secondary">{{ movie.duration }} мин</span>
+                    <span class="badge bg-warning text-dark">★ {{ movie.rating }}/10</span>
+                    <span>Голосов: {{ movie.vote_count }}</span>
+                    <span class="badge bg-light text-dark border">{{ movie.release_date|date:"d.m.Y" }}</span>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-body p-3">
+                        <h5 class="card-title">Описание</h5>
+                        <p class="card-text">{{ movie.description }}</p>
+                    </div>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body p-3">
+                                <h5 class="card-title">Режиссер</h5>
+                                <p class="card-text">{{ movie.director }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body p-3">
+                                <h5 class="card-title">Актеры</h5>
+                                <p class="card-text">{{ movie.actors }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3 mt-3">
+                    <a href="{% url 'rate_movie' movie.id %}" class="btn btn-primary">Оценить фильм</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Сеансы -->
+    <div class="mt-4">
+        <h2 class="mb-3 border-bottom pb-2">Доступные сеансы</h2>
+        {% if showtimes %}
+            <div class="list-group">
+                {% for showtime in showtimes %}
+                <div class="list-group-item list-group-item-action py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="fw-bold">{{ showtime.start_time|date:"H:i" }}</div>
+                            <div>Зал: {{ showtime.hall.name }}</div>
+                            <div class="text-success">{{ showtime.price }} ₸</div>
+                        </div>
+                        <div>
+                            <a href="{% url 'seat_selection' showtime.id %}" class="btn btn-sm btn-primary">
+                                Выбрать места
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning py-2">
+                На данный момент нет доступных сеансов для этого фильма.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Модальное окно для трейлера -->
+<div class="modal fade" id="trailerModal" tabindex="-1" aria-labelledby="trailerModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="trailerModalLabel">{{ movie.title }} — Трейлер</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="ratio ratio-16x9">
+          <iframe id="trailerIframe" src="" title="YouTube видео" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Скрипт для управления трейлером -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById('trailerModal');
+    const iframe = document.getElementById('trailerIframe');
+    const videoUrl = "{{ movie.get_trailer_embed_url }}";
+
+    modal.addEventListener('show.bs.modal', function () {
+        iframe.src = videoUrl;  // Подгружаем только при открытии
+    });
+
+    modal.addEventListener('hide.bs.modal', function () {
+        iframe.src = "";  // Очищаем iframe при закрытии
+    });
+});
+</script>
+   <style>
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.5rem;
+    transition: background 0.3s, transform 0.3s;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.play-button:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+</style>
+
+
+{% endblock %}

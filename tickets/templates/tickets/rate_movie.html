@@ -1,0 +1,16 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Оценить фильм: {{ movie.title }}</h2>
+    <p>Текущий рейтинг: ★ {{ movie.rating }}/10 ({{ movie.vote_count }} голосов)</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="rating-options">
+            {{ form.rating }}
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Отправить оценку</button>
+    </form>
+</div>
+{% endblock %}

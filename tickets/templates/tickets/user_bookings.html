@@ -1,0 +1,54 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Мои бронирования</h2>
+
+    {% if bookings %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for booking in bookings %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ booking.showtime.movie.title }}</h5>
+                        <p class="card-text mb-1">
+                            <strong>Дата:</strong> {{ booking.showtime.start_time|date:"d.m.Y" }}<br>
+                            <strong>Время:</strong> {{ booking.showtime.start_time|time }}<br>
+                            <strong>Зал:</strong> {{ booking.showtime.hall.name }}<br>
+                            <strong>Места:</strong><br>
+                            {% for seat in booking.seats.all %}
+                                Ряд {{ seat.row }} Место {{ seat.number }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}<br>
+                            <strong>Сумма:</strong> ₸{{ booking.total_price }}
+                        </p>
+                        <p>
+                            <strong>Статус:</strong>
+                            {% if booking.is_refunded %}
+                                <span class="badge bg-danger">Возвращён</span>
+                            {% else %}
+                                <span class="badge bg-success">Активен</span>
+                            {% endif %}
+                        </p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <a href="{% url 'booking_detail' booking.id %}" class="btn btn-sm btn-outline-primary">
+                                Подробнее
+                            </a>
+
+                            {% if not booking.is_refunded %}
+                            <form method="POST" action="{% url 'refund_booking' booking.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger">Возврат</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">У вас ещё нет бронирований.</div>
+    {% endif %}
+</div>
+{% endblock %}
