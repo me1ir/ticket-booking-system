@@ -4,10 +4,14 @@ from decouple import config  # Новый импорт
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ⚙️ Основные настройки
+# 🔐 Секреты из .env
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1').split(',')
+
+# 💳 Stripe
+STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
 # 🧩 Установленные приложения
 INSTALLED_APPS = [
@@ -91,6 +95,4 @@ AUTH_USER_MODEL = 'tickets.CustomUser'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-# 💳 Stripe
-STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+
