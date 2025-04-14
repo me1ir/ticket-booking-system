@@ -1,20 +1,84 @@
 {% extends 'tickets/base.html' %}
 {% load static %}
 
-{% block content %}
+{% block extra_css %}
 <style>
-    .highlight-missing {
-        outline: 3px solid #dc3545 !important;
-        outline-offset: 2px;
-        animation: pulse 0.8s ease-in-out;
+    .screen {
+        text-align: center;
+        background: #333;
+        color: white;
+        padding: 10px;
+        margin: 20px auto;
+        width: 80%;
+        font-size: 1.5rem;
+        letter-spacing: 0.2rem;
     }
-    @keyframes pulse {
-        0% { outline-color: transparent; }
-        50% { outline-color: #dc3545; }
-        100% { outline-color: transparent; }
+    .seat-map {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .seat-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        flex-direction: row;
+    }
+    .seats-container {
+        display: flex;
+        gap: 8px;
+    }
+    .row-number {
+        font-weight: bold;
+        width: 50px;
+        text-align: right;
+        margin-right: 10px;
+    }
+    .seat {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-color: #28a745;
+        color: white;
+        text-align: center;
+        line-height: 40px;
+        margin: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+    }
+    .seat.occupied {
+        background: #f44336;
+        cursor: not-allowed;
+    }
+    .seat.selected {
+        background: #2196F3;
+    }
+    .btn-book {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    a.button {
+        padding: 6px 12px;
+        background: #417690;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+    a.button:hover {
+        background: #205067;
+        color: white;
     }
 </style>
+{% endblock %}
 
+{% block content %}
 <div class="container mt-4">
     <h2 class="text-center mb-4">Выбор мест для {{ showtime.movie.title }}</h2>
 
@@ -28,16 +92,12 @@
         </a>
     </div>
 
-    <!-- Экран -->
     <div class="screen-container mb-5">
         <div class="screen mx-auto">ЭКРАН</div>
     </div>
 
-    <!-- Форма -->
     <form method="POST" id="seatSelectionForm">
         {% csrf_token %}
-
-        <!-- Схема зала с выбором мест и типа билета -->
         <div class="cinema-hall">
             {% for row, seats in rows.items %}
             <div class="seat-row mb-2">
@@ -58,14 +118,13 @@
             {% endfor %}
         </div>
 
-        <!-- Кнопка отправки -->
         <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary">Забронировать</button>
         </div>
     </form>
 </div>
 
-<!-- Модальное окно выбора типа билета -->
+<!-- Модалка -->
 <div class="modal fade show" id="ticketTypeModal" tabindex="-1" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%, -30%); width:300px; background:#ffffff; padding:20px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,0.25); z-index:1050;">
     <div class="modal-header border-0">
         <h5 class="modal-title" id="modalSeatLabel">Тип билета</h5>
@@ -141,9 +200,7 @@ function closeModal() {
     autoSubmitAfterModal = false;
 }
 
-// Пересчёт цены при выборе типа билета
-const radios = document.querySelectorAll('input[name="modalTicketType"]');
-radios.forEach(input => {
+document.querySelectorAll('input[name="modalTicketType"]').forEach(input => {
     input.addEventListener('change', () => {
         const selected = document.querySelector('input[name="modalTicketType"]:checked').value;
         const checkbox = document.querySelector(`input[name="seats"][value="${currentSeatId}"]`);
@@ -152,9 +209,7 @@ radios.forEach(input => {
     });
 });
 
-// Проверка перед отправкой формы
-const form = document.getElementById("seatSelectionForm");
-form.addEventListener("submit", function(event) {
+document.getElementById("seatSelectionForm").addEventListener("submit", function(event) {
     const selectedSeats = document.querySelectorAll("input[name='seats']:checked");
     for (const seat of selectedSeats) {
         const seatId = seat.value;
