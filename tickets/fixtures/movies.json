@@ -1,0 +1,235 @@
+[
+{
+  "model": "tickets.movie",
+  "pk": 1,
+  "fields": {
+    "title": "Shrek 5",
+    "description": "Plot unknown.",
+    "director": "Walt Dohrn",
+    "actors": "Zendaya, Cameron Diaz, Eddie Murphy",
+    "rating": 5.0,
+    "vote_count": 3,
+    "release_date": "2026-12-26",
+    "duration": 99,
+    "poster": "movie_posters/shrek5.jpg",
+    "slug": "shrek",
+    "trailer_url": "https://www.youtube.com/watch?v=KbiwL74KyJQ&pp=ygUHc2hyZWsgNQ%3D%3D",
+    "genres": [
+      1,
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 2,
+  "fields": {
+    "title": "Snow White",
+    "description": "A benevolent king and queen welcome their daughter during a snowstorm, naming her Snow White to honor the day. Years later, the queen falls ill and passes away. The king hastily remarries before mounting a campaign against an encroaching threat. When he does not return, the new queen usurps the throne, revealing herself as an enchantress whose vanity surpasses her beauty.",
+    "director": "Marc Webb",
+    "actors": "Rachel Zegler, Gal Gadot, Andrew Burnap",
+    "rating": 5.5,
+    "vote_count": 2,
+    "release_date": "2025-03-21",
+    "duration": 109,
+    "poster": "movie_posters/snowwhite_pdsZbC4.jpg",
+    "slug": "Snow_White",
+    "trailer_url": "https://www.youtube.com/watch?v=iV46TJKL8cU&pp=ygULc25vdyB3aGl0ZSA%3D",
+    "genres": [
+      1
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 3,
+  "fields": {
+    "title": "A Minecraft Movie",
+    "description": "Four misfits are suddenly pulled through a mysterious portal into a bizarre, cubic wonderland that thrives on imagination. To get back home, they'll have to master this world while embarking on a quest with an unexpected, expert crafter.",
+    "director": "Jared Hess",
+    "actors": "Jared Hess, Jason Momoa, Jack Black, Emma Myers",
+    "rating": 7.8,
+    "vote_count": 8,
+    "release_date": "2025-04-04",
+    "duration": 101,
+    "poster": "movie_posters/mine_4MPSA3F.jpg",
+    "slug": "mm",
+    "trailer_url": "https://www.youtube.com/watch?v=wJO_vIDZn-I&pp=ygURbWluZWNyYWZ0IHRyYWlsZXI%3D",
+    "genres": [
+      1
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 4,
+  "fields": {
+    "title": "The Amateur",
+    "description": "A CIA cryptographer manages to blackmail his agency into training him to let him go after a group of terrorists who killed his wife.",
+    "director": "James Hawes",
+    "actors": "Jon Bernthal, Julianne Nicholson, Rami Malek",
+    "rating": 7.0,
+    "vote_count": 1,
+    "release_date": "2025-04-11",
+    "duration": 123,
+    "poster": "movie_posters/theamateur_Zy9VUk5.jpg",
+    "slug": "The_Amateur",
+    "trailer_url": "https://www.youtube.com/watch?v=DCWcK4c-F8Q&pp=ygUTdGhlIGFtYXRldXIgdHJhaWxlcg%3D%3D",
+    "genres": [
+      1,
+      9
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 5,
+  "fields": {
+    "title": "Mickey 17",
+    "description": "Mickey 17, known as an \"expendable,\" goes on a dangerous journey to colonize an ice planet.",
+    "director": "Bong Joon Ho",
+    "actors": "Robert Pattinson, Steven Yeun, Michael Monroe",
+    "rating": 0.0,
+    "vote_count": 0,
+    "release_date": "2025-03-07",
+    "duration": 137,
+    "poster": "movie_posters/mickey17_kMLzbZI.jpg",
+    "slug": "mickey_17",
+    "trailer_url": "https://www.youtube.com/watch?v=osYpGSz_0i4&pp=ygURbWlja2V5IDE3IHRyYWlsZXLSBwkJfgkBhyohjO8%3D",
+    "genres": [
+      4,
+      3,
+      5,
+      6
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 6,
+  "fields": {
+    "title": "Warfare",
+    "description": "A platoon of Navy SEALs embark on a dangerous mission in Ramadi, Iraq, with the chaos and brotherhood of war retold through their memories of the event.",
+    "director": "Алекс Гарленд",
+    "actors": "Д’Фарао Ун-А-Тай, Уилл Поултер,Космо Джарвис, Кит Коннор",
+    "rating": 0.0,
+    "vote_count": 0,
+    "release_date": "2025-04-11",
+    "duration": 95,
+    "poster": "movie_posters/MV5BYjZhNDgyY2YtMmIwYi00N2QwLTkyOTYtODVkZTc0OWQ0OTBhXkEyXkFqcGc._V1_.jpg",
+    "slug": "aaa",
+    "trailer_url": "https://www.youtube.com/watch?v=JER0Fkyy3tw&pp=ygUPd2FyZmFyZSB0cmFpbGVy",
+    "genres": [
+      1,
+      5
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 7,
+  "fields": {
+    "title": "F1",
+    "description": "A Formula One driver comes out of retirement to mentor and team with a younger driver.",
+    "director": "Joseph Kosinski",
+    "actors": "Brad Pitt, Simone Ashley, Javier Bardem",
+    "rating": 0.0,
+    "vote_count": 0,
+    "release_date": "2025-06-27",
+    "duration": 120,
+    "poster": "movie_posters/f1.jpg",
+    "slug": "aa",
+    "trailer_url": "https://www.youtube.com/watch?v=CT2_P2DZBR0&pp=ygUKZjEgdHJhaWxlcg%3D%3D",
+    "genres": [
+      5
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 8,
+  "fields": {
+    "title": "Lilo & Stitch",
+    "description": "The bond formed between a lonely human girl named Lilo and a dog-like alien named Stitch, who is engineered to be a force of destruction. Pursuing aliens, social workers and the idea of the bond of family figure into the proceedings.",
+    "director": "Дин Флейшер-Кэмп",
+    "actors": "Ханна Уоддингэм, Сидни Агудонг, Тиа Каррере",
+    "rating": 0.0,
+    "vote_count": 0,
+    "release_date": "2025-05-22",
+    "duration": 108,
+    "poster": "movie_posters/stitch.jpg",
+    "slug": "aaaaa212",
+    "trailer_url": "https://www.youtube.com/watch?v=VWqJifMMgZE&pp=ygUj0LvQuNC70L4g0Lgg0YHRgtC40Ycg0YLRgNC10LnQu9C10YA%3D",
+    "genres": [
+      2,
+      3,
+      6
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 9,
+  "fields": {
+    "title": "Thunderbolts",
+    "description": "After finding themselves ensnared in a death trap, an unconventional team of antiheroes must embark on a dangerous mission that will force them to confront the darkest corners of their pasts.",
+    "director": "Jake Schreier",
+    "actors": "Флоренс Пью\r\nСебастиан Стэн\r\nУайатт Рассел\r\nОльга Куриленко\r\nЛьюис Пуллман\r\nДжеральдин Висванатан\r\nХанна Джон-Кэймен\r\nДэвид Харбор",
+    "rating": 0.0,
+    "vote_count": 0,
+    "release_date": "2025-04-30",
+    "duration": 126,
+    "poster": "movie_posters/thunderbolts_nFhDThk.jpg",
+    "slug": "awa1211",
+    "trailer_url": "https://www.youtube.com/watch?v=v-94Snw-H4o&pp=ygUUdGh1bmRlcmJvbHRzIHRyYWlsZXLSBwkJfgkBhyohjO8%3D",
+    "genres": [
+      1,
+      6,
+      9
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 10,
+  "fields": {
+    "title": "Tron: Ares",
+    "description": "A highly sophisticated Program, Ares, is sent from the digital world into the real world on a dangerous mission.",
+    "director": "Joachim Rønning",
+    "actors": "Джаред Лето\r\nГрета Ли\r\nЭван Питерс\r\nСара Дежарден\r\nДжиллиан Андерсон\r\nДжефф Бриджес\r\nКамерон Монахэн",
+    "rating": 0.0,
+    "vote_count": 0,
+    "release_date": "2025-10-10",
+    "duration": 132,
+    "poster": "movie_posters/tron.jpg",
+    "slug": "af5452",
+    "trailer_url": "https://www.youtube.com/watch?v=9KVG_X_7Naw&pp=ygURdHJvbiBhcmVzIHRyYWlsZXLSBwkJfgkBhyohjO8%3D",
+    "genres": [
+      1,
+      4
+    ]
+  }
+},
+{
+  "model": "tickets.movie",
+  "pk": 11,
+  "fields": {
+    "title": "Karate Kid: Legends",
+    "description": "After kung fu prodigy Li Fong relocates to New York City, he attracts unwanted attention from a local karate champion and embarks on a journey to enter the ultimate karate competition with the help of Mr. Han and Daniel LaRusso.",
+    "director": "Jonathan Entwistle",
+    "actors": "Джеки Чан\r\nБен Ван\r\nРальф Маччио\r\nДжошуа Джексон\r\nМин-На Вэнь\r\nШонетт Рене Уилсон\r\nСэди Стэнли",
+    "rating": 0.0,
+    "vote_count": 0,
+    "release_date": "2025-05-30",
+    "duration": 118,
+    "poster": "movie_posters/karate_kid.jpg",
+    "slug": "agsgh6555",
+    "trailer_url": "https://www.youtube.com/watch?v=LhRXf-yEQqA&pp=ygUSa2FyYXRlIGtpZCB0cmFpbGVy",
+    "genres": [
+      1,
+      5
+    ]
+  }
+}
+]
