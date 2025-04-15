@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
                 ('release_date', models.DateField()),
                 ('duration', models.DurationField()),
-                ('poster', models.ImageField(upload_to='movie_posters/')),
+                ('poster', models.ImageField(upload_to='posters/')),
                 ('director', models.CharField(max_length=100)),
                 ('actors', models.TextField()),
                 ('rating', models.FloatField(default=0.0)),

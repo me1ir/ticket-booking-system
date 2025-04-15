@@ -8,7 +8,7 @@
         <!-- Постер с кнопкой "Смотреть трейлер" -->
         <div class="col-md-3">
             <div class="position-relative">
-                <img src="{{ movie.poster.url }}" class="img-fluid rounded shadow" alt="{{ movie.title }}" style="max-height: 400px;">
+                    <img src="{% static movie.poster_path %}" alt="{{ movie.title }} poster" class="img-fluid" />
                 {% if movie.trailer_url %}
 <button class="play-button" data-bs-toggle="modal" data-bs-target="#trailerModal" aria-label="Смотреть трейлер">
     <i class="fas fa-play fa-2x"></i>

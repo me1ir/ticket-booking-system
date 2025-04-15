@@ -93,7 +93,7 @@ class CustomUserAdmin(UserAdmin):
 class MovieAdmin(admin.ModelAdmin):
     list_filter = ('genres', 'release_date')
     filter_horizontal = ('genres',)
-    list_display = ('title', 'director', 'rating', 'release_date')
+    list_display = ('title', 'director', 'rating', 'release_date', 'poster_path')
     search_fields = ('title', 'director', 'actors')
 
     def get_queryset(self, request):
