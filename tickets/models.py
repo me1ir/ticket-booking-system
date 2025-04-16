@@ -91,7 +91,7 @@ class Movie(models.Model):
     vote_count = models.PositiveIntegerField(default=0)
     release_date = models.DateField()
     duration = models.PositiveIntegerField(help_text="Длительность в минутах")
-    poster_path = models.CharField(max_length=200, help_text="Path to static image like 'tickets/posters/matrix.jpg'")
+    poster = models.ImageField(upload_to='posters/', default='posters/default.jpg')
     slug = models.SlugField(blank=True, unique=True)
     trailer_url = models.URLField(blank=True, null=True, help_text="Ссылка на трейлер YouTube")
 
